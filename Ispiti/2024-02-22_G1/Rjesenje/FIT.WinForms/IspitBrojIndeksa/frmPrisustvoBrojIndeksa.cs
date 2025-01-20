@@ -1,4 +1,4 @@
-﻿using FIT.Data;
+using FIT.Data;
 using FIT.Data.IspitBrojIndeksa;
 using FIT.Infrastructure;
 using FIT.WinForms.Helpers;
@@ -115,21 +115,25 @@ namespace FIT.WinForms.IspitBrojIndeksa
             txtInfo.ScrollToCaret();
         }
 
-        private void GenerisiPrisustva(int brojZapisa, Student student, NastavaBrojIndeksa nastava)
+        private void GenerisiPrisustva(int brojZapisa, Student student, List<NastavaBrojIndeksa> nastave)
         {
-            for (int i = 0; i < brojZapisa; ++i)
+            // Thanks Vedo
+            foreach (var nastava in nastave)
             {
-                AddPrisustvo(student, nastava);
+                for (int i = 0; i < brojZapisa; ++i)
+                {
+                    AddPrisustvo(student, nastava);
 
-                Thread.Sleep(300);
+                    Thread.Sleep(300);
 
-                Invoke(
-                    () =>
-                    {
-                        txtInfo.Text += $"{DateTime.Now:dd.MM HH:mm:ss} -> {student} za {nastava}{Environment.NewLine}";
-                        ScrollToEndOfTxtInfo();
-                    }
-                );
+                    Invoke(
+                        () =>
+                        {
+                            txtInfo.Text += $"{DateTime.Now:dd.MM HH:mm:ss} -> {student} za {nastava}{Environment.NewLine}";
+                            ScrollToEndOfTxtInfo();
+                        }
+                    );
+                }
             }
         }
 
@@ -155,8 +159,9 @@ namespace FIT.WinForms.IspitBrojIndeksa
             }
 
             var student = (Student)cbStudent.SelectedItem;
+            var nastave = (List<NastavaBrojIndeksa>)cbNastava.DataSource;
 
-            await Task.Run(() => GenerisiPrisustva(brojZapisa, student, nastava));
+            await Task.Run(() => GenerisiPrisustva(brojZapisa, student, nastave));
 
             MessageBox.Show("Uspjesno generisana prisustva", "Generisanje zavrseno");
             LoadPrisustvaIntoDgv();
