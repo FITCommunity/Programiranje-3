@@ -184,7 +184,8 @@ namespace DLWMS.WinApp.IspitBrojIndeksa
                 Invoke(
                     () => 
                     {
-                        txtInfo.Text += $"{i}. razmjena za {_student.IndeksImePrezime} na {univerzitet} {pocetak:dd.MM.yyyy} - {kraj:dd.MM.yyyy}{Environment.NewLine}";
+                        txtInfo.Text += $"{i}. razmjena za {_student.IndeksImePrezime} na {univerzitet} " +
+                        $"({pocetak:dd.MM.yyyy} - {kraj:dd.MM.yyyy}){Environment.NewLine}";
                         ScrollToEndOfTxtInfo();
                     }
                 );
