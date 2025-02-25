@@ -56,7 +56,7 @@
             dgwPretraga.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgwPretraga.Size = new Size(776, 217);
             dgwPretraga.TabIndex = 0;
-            dgwPretraga.CellContentClick += dgwPretraga_CellContentClick;
+            dgwPretraga.CellContentDoubleClick += dgwPretraga_CellContentDoubleClick;
             // 
             // IndeksImePrezime
             // 

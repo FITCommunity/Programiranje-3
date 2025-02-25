@@ -29,7 +29,7 @@ namespace DLWMS.WinApp.IB230269
             cbGodina.SelectedIndex = 0;
 
             dgwPretraga.DataSource = db.StudentiStipendijeBrojIndeksa.AsNoTracking().Include(s => s.StipendijeGodine).ThenInclude(s => s.Stipendija).Include(s => s.Student).ToList();
-            
+
             this.Text = $"Broj prikazanih studenata: {dgwPretraga.Rows.Count}";
         }
 
@@ -57,43 +57,6 @@ namespace DLWMS.WinApp.IB230269
             }
         }
 
-        private void dgwPretraga_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex > -1)
-            {
-                var odabranaStipendija = dgwPretraga.SelectedRows[0].DataBoundItem as StudentiStipendijeBrojIndeksa;
-                if (e.ColumnIndex == 5)
-                {
-                    if (MessageBox.Show("Jeste li sigurni da želite obrisati ovu stipendiju?",
-                                        "Brisanje stipendije!",
-                                        MessageBoxButtons.YesNo,
-                                        MessageBoxIcon.Question) == DialogResult.Yes)
-                    {
-
-                        var pracenaStipendija = db.ChangeTracker.Entries<StudentiStipendijeBrojIndeksa>()
-                            .FirstOrDefault(e => e.Entity.Id == odabranaStipendija.Id);
-
-                        if (pracenaStipendija != null)
-                            pracenaStipendija.State = EntityState.Detached;
-                        
-                        var stipendijaZaBrisanje = db.StudentiStipendijeBrojIndeksa
-                            .AsNoTracking()
-                            .FirstOrDefault(s => s.Id == odabranaStipendija.Id);
-
-                            db.StudentiStipendijeBrojIndeksa.Remove(stipendijaZaBrisanje);
-                            db.SaveChanges();
-                            dgwUcitajPodatke();
-                    }
-                }
-                if (e.ColumnIndex != 5)
-                {
-                    var forma = new frmStipendijaAddEditBrojIndeksa(odabranaStipendija);
-                    if (forma.ShowDialog() == DialogResult.OK)
-                        dgwUcitajPodatke();
-                }
-            }
-        }
-
         private void btnDodajStipendiju_Click(object sender, EventArgs e)
         {
             var forma = new frmStipendijaAddEditBrojIndeksa();
@@ -116,6 +79,43 @@ namespace DLWMS.WinApp.IB230269
             var forma = new frmStipendijeBrojIndeksa();
             forma.ShowDialog();
             dgwUcitajPodatke();
+        }
+
+        private void dgwPretraga_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex > -1)
+            {
+                var odabranaStipendija = dgwPretraga.SelectedRows[0].DataBoundItem as StudentiStipendijeBrojIndeksa;
+                if (e.ColumnIndex == 5)
+                {
+                    if (MessageBox.Show("Jeste li sigurni da želite obrisati ovu stipendiju?",
+                                        "Brisanje stipendije!",
+                                        MessageBoxButtons.YesNo,
+                                        MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+
+                        var pracenaStipendija = db.ChangeTracker.Entries<StudentiStipendijeBrojIndeksa>()
+                            .FirstOrDefault(e => e.Entity.Id == odabranaStipendija.Id);
+
+                        if (pracenaStipendija != null)
+                            pracenaStipendija.State = EntityState.Detached;
+
+                        var stipendijaZaBrisanje = db.StudentiStipendijeBrojIndeksa
+                            .AsNoTracking()
+                            .FirstOrDefault(s => s.Id == odabranaStipendija.Id);
+
+                        db.StudentiStipendijeBrojIndeksa.Remove(stipendijaZaBrisanje);
+                        db.SaveChanges();
+                        dgwUcitajPodatke();
+                    }
+                }
+                if (e.ColumnIndex != 5)
+                {
+                    var forma = new frmStipendijaAddEditBrojIndeksa(odabranaStipendija);
+                    if (forma.ShowDialog() == DialogResult.OK)
+                        dgwUcitajPodatke();
+                }
+            }
         }
     }
 }
