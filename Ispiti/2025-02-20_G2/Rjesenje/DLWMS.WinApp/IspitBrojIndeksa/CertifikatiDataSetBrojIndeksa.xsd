@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="CertifikatiDataSetBrojIndeksa" targetNamespace="http://tempuri.org/CertifikatiDataSetBrojIndeksa.xsd" xmlns:mstns="http://tempuri.org/CertifikatiDataSetBrojIndeksa.xsd" xmlns="http://tempuri.org/CertifikatiDataSetBrojIndeksa.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="CertifikatiDataSetBrojIndeksa" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_UserDSName="CertifikatiDataSetBrojIndeksa" msprop:Generator_DataSetName="CertifikatiDataSetBrojIndeksa">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Certifikat" msprop:Generator_RowEvHandlerName="CertifikatRowChangeEventHandler" msprop:Generator_RowDeletedName="CertifikatRowDeleted" msprop:Generator_RowDeletingName="CertifikatRowDeleting" msprop:Generator_RowEvArgName="CertifikatRowChangeEvent" msprop:Generator_TablePropName="Certifikat" msprop:Generator_RowChangedName="CertifikatRowChanged" msprop:Generator_RowChangingName="CertifikatRowChanging" msprop:Generator_TableClassName="CertifikatDataTable" msprop:Generator_RowClassName="CertifikatRow" msprop:Generator_TableVarName="tableCertifikat" msprop:Generator_UserTableName="Certifikat">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Rb" msprop:Generator_ColumnPropNameInRow="Rb" msprop:Generator_ColumnPropNameInTable="RbColumn" msprop:Generator_ColumnVarNameInTable="columnRb" msprop:Generator_UserColumnName="Rb" type="xs:string" minOccurs="0" />
+              <xs:element name="IndeksImePrezime" msprop:Generator_ColumnPropNameInRow="IndeksImePrezime" msprop:Generator_ColumnPropNameInTable="IndeksImePrezimeColumn" msprop:Generator_ColumnVarNameInTable="columnIndeksImePrezime" msprop:Generator_UserColumnName="IndeksImePrezime" type="xs:string" minOccurs="0" />
+              <xs:element name="MjesecniIznos" msprop:Generator_ColumnPropNameInRow="MjesecniIznos" msprop:Generator_ColumnPropNameInTable="MjesecniIznosColumn" msprop:Generator_ColumnVarNameInTable="columnMjesecniIznos" msprop:Generator_UserColumnName="MjesecniIznos" type="xs:string" minOccurs="0" />
+              <xs:element name="UkupniIznos" msprop:Generator_ColumnPropNameInRow="UkupniIznos" msprop:Generator_ColumnPropNameInTable="UkupniIznosColumn" msprop:Generator_ColumnVarNameInTable="columnUkupniIznos" msprop:Generator_UserColumnName="UkupniIznos" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
