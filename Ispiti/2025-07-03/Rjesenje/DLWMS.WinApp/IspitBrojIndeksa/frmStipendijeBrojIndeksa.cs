@@ -72,6 +72,9 @@ namespace DLWMS.WinApp.IspitBrojIndeksa
             DB.Add(stipendijaGodina);
             DB.SaveChanges();
             LoadStipendijeGodineIntoDgv();
+
+            // This is here purely for UX, so when you add something the input is emptied
+            txtMjesecniIznos.Text = "";
         }
 
         private void StipendijeGodineDgvCellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -100,13 +103,18 @@ namespace DLWMS.WinApp.IspitBrojIndeksa
                       studentStipendija.Studenti == student
                    && studentStipendija.StipendijeGodineBrojIndeksa == stipendijaGodina);
 
+        private void ScrollToEndOfTxtInfo()
+        {
+            txtInfo.SelectionStart = txtInfo.Text.Length;
+            txtInfo.ScrollToCaret();
+        }
+
         private void LogToTxtInfo(string text)
         {
             Invoke(() =>
             {
                 txtInfo.Text += text;
-                txtInfo.SelectionStart = txtInfo.Text.Length;
-                txtInfo.ScrollToCaret();
+                ScrollToEndOfTxtInfo();
             });
         }
 
