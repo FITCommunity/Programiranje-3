@@ -7,61 +7,67 @@ namespace DLWMS.WinApp.IspitBrojIndeksa
 {
     public partial class frmCertifikatiAddEditBrojIndeksa : Form
     {
-        private readonly DLWMSContext _DLWMSContext = SharedBrojIndeksa.DLWMSContext;
+        private readonly DLWMSContext DB = SharedBrojIndeksa.DB;
         private readonly StudentiCertifikatiBrojIndeksa _studentiCertifikati;
-        private readonly bool _createNew;
+        private readonly bool _isAdd;
 
-        public frmCertifikatiAddEditBrojIndeksa(StudentiCertifikatiBrojIndeksa? studentiCertifikati = null)
+        public frmCertifikatiAddEditBrojIndeksa()
         {
             InitializeComponent();
+            LoadDataIntoFormControls();
 
+            _studentiCertifikati = new();
+            _isAdd = true;
+        }
+
+        public frmCertifikatiAddEditBrojIndeksa(StudentiCertifikatiBrojIndeksa studentiCertifikati)
+        {
+            InitializeComponent();
+            LoadDataIntoFormControls();
+
+            _studentiCertifikati = studentiCertifikati;
+            _isAdd = false;
+
+            cbStudent.Enabled = false;
+            cbStudent.SelectedItem = _studentiCertifikati.Student;
+            cbGodina.SelectedItem = _studentiCertifikati.Godina.ToString();
+            LoadCertifikatiGodineIntoComboBox();
+            cbCertifikatGodina.SelectedItem = _studentiCertifikati.CertifikatGodina;
+        }
+
+        private void LoadDataIntoFormControls()
+        {
             LoadStudentiIntoComboBox();
             cbGodina.SelectedIndex = 0;
             LoadCertifikatiGodineIntoComboBox();
-
-            if (studentiCertifikati == null)
-            {
-                _studentiCertifikati = new();
-                _createNew = true;
-            }
-            else
-            {
-                _studentiCertifikati = studentiCertifikati;
-                _createNew = false;
-
-                cbStudent.Enabled = false;
-                cbStudent.SelectedItem = _studentiCertifikati.Student;
-                cbGodina.SelectedItem = _studentiCertifikati.Godina.ToString();
-                cbCertifikatGodina.SelectedItem = _studentiCertifikati.CertifikatGodina;
-            }
         }
 
         private void LoadStudentiIntoComboBox()
-            => cbStudent.DataSource = _DLWMSContext.Studenti.ToList();
+            => cbStudent.DataSource = DB.Studenti.ToList();
 
         private void LoadCertifikatiGodineIntoComboBox()
         {
             int godina = int.Parse(cbGodina.SelectedItem.ToString());
 
-            cbCertifikatGodina.DataSource = _DLWMSContext.CertifikatiGodine
-                                                         .Include(certifikatGodina => certifikatGodina.Certifikat)
-                                                         .Where(certifikatGodina => certifikatGodina.Godina == godina)
-                                                         .ToList();
+            cbCertifikatGodina.DataSource = DB.CertifikatiGodine
+                                              .Include(certifikatGodina => certifikatGodina.Certifikat)
+                                              .Where(certifikatGodina => certifikatGodina.Godina == godina)
+                                              .ToList();
         }
 
         private void GodinaComboBoxSelectionChangeCommitted(object? sender, EventArgs e)
             => LoadCertifikatiGodineIntoComboBox();
 
         private bool DoesStudentCertifikatExist(Student student, CertifikatiGodineBrojIndeksa certifikatGodina)
-            => _DLWMSContext.StudentiCertifikati
-                         .Include(studentiCertifikati => studentiCertifikati.Student)
-                         .Include(studentiCertifikati => studentiCertifikati.CertifikatGodina)
-                         .ThenInclude(certifikatGodina => certifikatGodina.Certifikat)
-                         .Any(studentiCertifikati
-                            => studentiCertifikati != _studentiCertifikati
-                            && studentiCertifikati.CertifikatGodina == certifikatGodina
-                            && studentiCertifikati.Student == student
-                         );
+            => DB.StudentiCertifikati
+                 .Include(studentiCertifikati => studentiCertifikati.Student)
+                 .Include(studentiCertifikati => studentiCertifikati.CertifikatGodina)
+                 .ThenInclude(certifikatGodina => certifikatGodina.Certifikat)
+                 .Any(studentiCertifikati
+                    => studentiCertifikati != _studentiCertifikati
+                    && studentiCertifikati.CertifikatGodina == certifikatGodina
+                    && studentiCertifikati.Student == student
+                 );
 
         private bool AreValidInputs()
         {
@@ -77,7 +83,7 @@ namespace DLWMS.WinApp.IspitBrojIndeksa
             else if (DoesStudentCertifikatExist(student, certifikatGodina))
             {
                 MessageBox.Show(
-                    $"Za odabranu godinu {godina} student {student} vec ima odabrani certifikat", 
+                    $"Za odabranu godinu {godina} student {student} vec ima odabrani certifikat",
                     "Dupliciranje podataka"
                 );
                 return false;
@@ -99,16 +105,16 @@ namespace DLWMS.WinApp.IspitBrojIndeksa
             _studentiCertifikati.Student = student;
             _studentiCertifikati.CertifikatGodina = certifikatGodina;
 
-            if (_createNew)
+            if (_isAdd)
             {
-                _DLWMSContext.Add(_studentiCertifikati);
+                DB.Add(_studentiCertifikati);
             }
             else
             {
-                _DLWMSContext.Update(_studentiCertifikati);
+                DB.Update(_studentiCertifikati);
             }
 
-            _DLWMSContext.SaveChanges();
+            DB.SaveChanges();
             Close();
         }
     }

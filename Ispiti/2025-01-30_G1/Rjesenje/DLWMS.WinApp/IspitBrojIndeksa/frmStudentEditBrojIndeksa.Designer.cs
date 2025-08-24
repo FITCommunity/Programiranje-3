@@ -102,7 +102,7 @@
             cbDrzava.Name = "cbDrzava";
             cbDrzava.Size = new Size(210, 28);
             cbDrzava.TabIndex = 5;
-            cbDrzava.SelectionChangeCommitted += cbDrzava_SelectionChangeCommitted;
+            cbDrzava.SelectionChangeCommitted += DrzavaComboBoxSelectionChangeCommitted;
             // 
             // lblGrad
             // 

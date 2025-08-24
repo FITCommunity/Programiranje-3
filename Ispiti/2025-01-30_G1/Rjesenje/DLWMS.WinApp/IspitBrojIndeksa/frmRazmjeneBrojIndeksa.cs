@@ -2,13 +2,14 @@
 using DLWMS.Data.IspitBrojIndeksa;
 using DLWMS.Infrastructure;
 using DLWMS.WinApp.Helpers;
+using DLWMS.WinApp.Izvjestaji;
 using Microsoft.EntityFrameworkCore;
 
 namespace DLWMS.WinApp.IspitBrojIndeksa
 {
     public partial class frmRazmjeneBrojIndeksa : Form
     {
-        private readonly DLWMSContext _DLWMSContext = SharedBrojIndeksa.DLWMSContext;
+        private readonly DLWMSContext DB = SharedBrojIndeksa.DB;
         private readonly Student _student;
 
         public frmRazmjeneBrojIndeksa(Student student)
@@ -19,61 +20,48 @@ namespace DLWMS.WinApp.IspitBrojIndeksa
 
             Text = $"Razmjena studenta {_student.IndeksImePrezime}";
 
-            SetDgvProperties();
-            LoadDrzaveIntoDgv();
-            LoadUniverzitetiIntoDgv(cbUniverzitet);
-            LoadUniverzitetiIntoDgv(gcbUniverzitet);
-            LoadRazmjeneIntoDgv();
-        }
-
-        private void SetDgvProperties()
-        {
-            dgvRazmjene.ReadOnly = true;
-            dgvRazmjene.MultiSelect = false;
             dgvRazmjene.AutoGenerateColumns = false;
-            dgvRazmjene.AllowUserToResizeColumns = false;
-            dgvRazmjene.AllowUserToResizeRows = false;
-            dgvRazmjene.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+            LoadDrzaveIntoComboBox();
+            LoadUniverzitetiIntoComboBox();
+            LoadRazmjeneIntoDgv();
+
+            gcbUniverzitet.DataSource = DB.Univerziteti.ToList();
         }
 
-        private void LoadDrzaveIntoDgv()
-        {
-            cbDrzava.UcitajPodatke(
-                   _DLWMSContext.Drzave
-                                .Include(drzava => drzava.Gradovi)
-                                .Include(drzava => drzava.Univerziteti)
-                                .ToList()
-            );
-        }
+        private void LoadDrzaveIntoComboBox()
+            => cbDrzava.UcitajPodatke(
+                   DB.Drzave
+                     .Include(drzava => drzava.Gradovi)
+                     .Include(drzava => drzava.Univerziteti)
+                     .ToList()
+               );
 
-        private void LoadUniverzitetiIntoDgv(ComboBox comboBox) 
+        private void LoadUniverzitetiIntoComboBox()
         {
             var drzava = (Drzava)cbDrzava.SelectedItem;
 
-            comboBox.UcitajPodatke(
-                _DLWMSContext.Univerziteti
-                             .Include(univerzitet => univerzitet.Drzava)
-                             .Where(univerzitet => univerzitet.Drzava == drzava)
-                             .ToList()
+            cbUniverzitet.UcitajPodatke(
+                DB.Univerziteti
+                  .Include(univerzitet => univerzitet.Drzava)
+                  .Where(univerzitet => univerzitet.Drzava == drzava)
+                  .ToList()
             );
         }
 
-        private void LoadRazmjeneIntoDgv() 
+        private void LoadRazmjeneIntoDgv()
         {
-            var razmjene = _DLWMSContext.Razmjene
-                                        .Include(razmjena => razmjena.Student)
-                                        .Include(razmjena => razmjena.Univerzitet)
-                                        .Where(razmjena => razmjena.Student == _student)
-                                        .ToList();
+            var razmjene = DB.Razmjene
+                             .Include(razmjena => razmjena.Student)
+                             .Include(razmjena => razmjena.Univerzitet)
+                             .Where(razmjena => razmjena.Student == _student)
+                             .ToList();
 
-            dgvRazmjene.DataSource = null;
             dgvRazmjene.DataSource = razmjene;
         }
 
-        private bool DoDatesOverlap(DateTime start1, DateTime end1, DateTime start2, DateTime end2)
-        {
-            return start1 <= end2 && start2 <= end1;
-        }
+        private static bool DoDatesOverlap(DateTime start1, DateTime end1, DateTime start2, DateTime end2)
+            => start1 <= end2 && start2 <= end1;
 
         private bool DoesRazmjenaPeriodOverlap(DateTime pocetak, DateTime kraj)
         {
@@ -91,7 +79,7 @@ namespace DLWMS.WinApp.IspitBrojIndeksa
             if (univerzitet == null)
             {
                 MessageBox.Show(
-                    "Odabrana drzava nema univerziteta za ponudu, probajte odabrati drugaciju drzavu", 
+                    "Odabrana drzava nema univerziteta za ponudu, probajte odabrati drugaciju drzavu",
                     "Greska pri odaberu univerziteta"
                 );
                 return false;
@@ -132,15 +120,12 @@ namespace DLWMS.WinApp.IspitBrojIndeksa
         }
 
         private void DrzavaComboBoxSelectionChangeCommitted(object? sender, EventArgs e)
-        {
-            LoadUniverzitetiIntoDgv(cbUniverzitet);
-            LoadUniverzitetiIntoDgv(gcbUniverzitet);
-        }
+            => LoadUniverzitetiIntoComboBox();
 
         private void PotvrdaBtnClick(object? sender, EventArgs e)
         {
-            using frmRazmjenaReportBrojIndeksa frmRazmjenaReportBrojIndeksa = new(_student);
-            frmRazmjenaReportBrojIndeksa.ShowDialog();
+            using var formaIzvjestaj = new frmIzvjestaji(_student);
+            formaIzvjestaj.ShowDialog();
         }
 
         private void DodajRazmjenu(UniverzitetBrojIndeksa univerzitet, int ects, DateTime pocetak, DateTime kraj)
@@ -155,8 +140,8 @@ namespace DLWMS.WinApp.IspitBrojIndeksa
                 Okoncano = kraj < DateTime.Now
             };
 
-            _DLWMSContext.Add(razmjena);
-            _DLWMSContext.SaveChanges();
+            DB.Add(razmjena);
+            DB.SaveChanges();
         }
 
         private void ScrollToEndOfTxtInfo()
@@ -165,30 +150,37 @@ namespace DLWMS.WinApp.IspitBrojIndeksa
             txtInfo.ScrollToCaret();
         }
 
-        private void GenerisiRazmjene(
-            int brojRazmjena, 
-            UniverzitetBrojIndeksa univerzitet, 
-            int ects, 
-            DateTime pocetak, 
+        private void LogToTxtInfo(string text)
+        {
+            Invoke(
+                () =>
+                {
+                    txtInfo.Text += text;
+                    ScrollToEndOfTxtInfo();
+                }
+            );
+        }
+
+        private async Task GenerisiRazmjene(
+            int brojRazmjena,
+            UniverzitetBrojIndeksa univerzitet,
+            int ects,
+            DateTime pocetak,
             DateTime kraj
         )
         {
-            for (int i = 1; i <= brojRazmjena; ++i) 
+            for (int i = 1; i <= brojRazmjena; ++i)
             {
                 kraj = kraj.AddDays(1);
 
                 DodajRazmjenu(univerzitet, ects, pocetak, kraj);
 
-                Thread.Sleep(300);
+                await Task.Delay(300);
 
-                Invoke(
-                    () => 
-                    {
-                        txtInfo.Text += $"{i}. razmjena za {_student.IndeksImePrezime} na {univerzitet} " +
-                        $"({pocetak:dd.MM.yyyy} - {kraj:dd.MM.yyyy}){Environment.NewLine}";
-                        ScrollToEndOfTxtInfo();
-                    }
-                );
+                LogToTxtInfo($"{i}. razmjena za {_student.IndeksImePrezime} na {univerzitet} " +
+                    $"({pocetak:dd.MM.yyyy} - {kraj:dd.MM.yyyy}){Environment.NewLine}");
+
+                Invoke(LoadRazmjeneIntoDgv);
             }
         }
 
@@ -196,7 +188,7 @@ namespace DLWMS.WinApp.IspitBrojIndeksa
         {
             int brojRazmjena;
             int ects;
-            
+
             if (!int.TryParse(txtBrojRazmjena.Text, out brojRazmjena) || brojRazmjena <= 0)
             {
                 MessageBox.Show("Broj razmjena treba biti pozitivan broj", "Greska pri unosu broja razmjena");
@@ -215,22 +207,18 @@ namespace DLWMS.WinApp.IspitBrojIndeksa
             await Task.Run(() => GenerisiRazmjene(brojRazmjena, univerzitet, ects, pocetak, kraj));
 
             MessageBox.Show("Uspjesno generisane razmjene", "Generisanje gotovo");
-
-            LoadRazmjeneIntoDgv();
         }
 
         private void RazmjeneDgvCellClick(object? sender, DataGridViewCellEventArgs e)
         {
-            bool isObrisiClick = e.ColumnIndex == RazmjenaObrisiBtn.Index;
-
-            if (e.RowIndex < 0)
+            if (e.RowIndex < 0 || e.ColumnIndex != ObrisiBtn.Index)
             {
                 return;
             }
 
-            var razmjena = (RazmjeneBrojIndeksa)dgvRazmjene.Rows[e.RowIndex].DataBoundItem;
+            var razmjena = (RazmjeneBrojIndeksa)dgvRazmjene.GetOdabraniRed();
 
-            DialogResult result = MessageBox.Show(
+            DialogResult dialogResult = MessageBox.Show(
                 $"Da li ste sigurni da zelite obrisati podatke o razmjeni {_student.IndeksImePrezime} na"
                 + $"{razmjena.Univerzitet.Naziv} ({razmjena.Univerzitet.Drzava})",
                 "Upit",
@@ -238,14 +226,12 @@ namespace DLWMS.WinApp.IspitBrojIndeksa
                 MessageBoxIcon.Warning
             );
 
-            if (result == DialogResult.No)
+            if (dialogResult == DialogResult.Yes)
             {
-                return;
+                DB.Remove(razmjena);
+                DB.SaveChanges();
+                LoadRazmjeneIntoDgv();
             }
-
-            _DLWMSContext.Remove(razmjena);
-            _DLWMSContext.SaveChanges();
-            LoadRazmjeneIntoDgv();
         }
     }
 }

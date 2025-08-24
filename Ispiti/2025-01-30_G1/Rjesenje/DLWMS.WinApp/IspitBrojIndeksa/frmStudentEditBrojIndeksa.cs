@@ -7,7 +7,7 @@ namespace DLWMS.WinApp.IspitBrojIndeksa
 {
     public partial class frmStudentEditBrojIndeksa : Form
     {
-        private readonly DLWMSContext _DLWMSContext = SharedBrojIndeksa.DLWMSContext;
+        private readonly DLWMSContext DB = SharedBrojIndeksa.DB;
         private readonly Student _student;
 
         public frmStudentEditBrojIndeksa(Student student)
@@ -21,17 +21,17 @@ namespace DLWMS.WinApp.IspitBrojIndeksa
         }
 
         private void LoadDrzavaIntoComboBox()
-            => cbDrzava.UcitajPodatke(_DLWMSContext.Drzave.Include(drzava => drzava.Gradovi).ToList());
+            => cbDrzava.UcitajPodatke(DB.Drzave.Include(drzava => drzava.Gradovi).ToList());
 
         private void LoadGradIntoComboBox()
         {
             var drzava = (Drzava)cbDrzava.SelectedItem;
 
             cbGrad.UcitajPodatke(
-                _DLWMSContext.Gradovi
-                             .Include(grad => grad.Drzava)
-                             .Where(grad => grad.Drzava == drzava)
-                             .ToList()
+                DB.Gradovi
+                  .Include(grad => grad.Drzava)
+                  .Where(grad => grad.Drzava == drzava)
+                  .ToList()
             );
         }
 
@@ -60,12 +60,12 @@ namespace DLWMS.WinApp.IspitBrojIndeksa
             _student.Slika = pbSlika.Image.ToByteArray();
             _student.Grad = grad;
 
-            _DLWMSContext.Update(_student);
-            _DLWMSContext.SaveChanges();
+            DB.Update(_student);
+            DB.SaveChanges();
             Close();
         }
 
-        private void cbDrzava_SelectionChangeCommitted(object? sender, EventArgs e)
+        private void DrzavaComboBoxSelectionChangeCommitted(object? sender, EventArgs e)
             => LoadGradIntoComboBox();
     }
 }

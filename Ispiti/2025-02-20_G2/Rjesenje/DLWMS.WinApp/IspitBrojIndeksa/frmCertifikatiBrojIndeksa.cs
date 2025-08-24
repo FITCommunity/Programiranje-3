@@ -2,53 +2,45 @@
 using DLWMS.Data.IspitBrojIndeksa;
 using DLWMS.Infrastructure;
 using DLWMS.WinApp.Helpers;
+using DLWMS.WinApp.Izvjestaji;
 using Microsoft.EntityFrameworkCore;
 
 namespace DLWMS.WinApp.IspitBrojIndeksa
 {
     public partial class frmCertifikatiBrojIndeksa : Form
     {
-        private readonly DLWMSContext _DLWMSContext = SharedBrojIndeksa.DLWMSContext;
+        private readonly DLWMSContext DB = SharedBrojIndeksa.DB;
 
         public frmCertifikatiBrojIndeksa()
         {
             InitializeComponent();
 
-            SetDgvProperties();
+            dgvCertifikatiGodine.AutoGenerateColumns = false;
+
             cbGodina.SelectedIndex = 0;
             LoadCertifikatiIntoComboBox();
             LoadCertifikatiGodineIntoDgv();
         }
 
-        private void SetDgvProperties()
-        {
-            dgvCertifikatiGodine.ReadOnly = true;
-            dgvCertifikatiGodine.MultiSelect = false;
-            dgvCertifikatiGodine.AllowUserToResizeColumns = false;
-            dgvCertifikatiGodine.AllowUserToResizeRows = false;
-            dgvCertifikatiGodine.AutoGenerateColumns = false;
-            dgvCertifikatiGodine.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-        }
-
         private void LoadCertifikatiIntoComboBox()
-            => cbCertifikat.DataSource = _DLWMSContext.Certifikati.ToList();
+            => cbCertifikat.DataSource = DB.Certifikati.ToList();
 
         private void LoadCertifikatiGodineIntoDgv()
         {
-            var certifikatiGodine = _DLWMSContext.CertifikatiGodine
-                                                 .Include(certifikatiGodine => certifikatiGodine.Certifikat)
-                                                 .ToList();
+            var certifikatiGodine = DB.CertifikatiGodine
+                                      .Include(certifikatiGodine => certifikatiGodine.Certifikat)
+                                      .ToList();
 
             dgvCertifikatiGodine.DataSource = certifikatiGodine;
         }
 
         private bool DoesCertifikatGodinaExist(int godina, CertifikatiBrojIndeksa certifikat)
-            => _DLWMSContext.CertifikatiGodine
-                            .Include(certifikatiGodine => certifikatiGodine.Certifikat)
-                            .Any(certifikatiGodine
-                                => certifikatiGodine.Godina == godina
-                                && certifikatiGodine.Certifikat == certifikat
-                             );
+            => DB.CertifikatiGodine
+                 .Include(certifikatiGodine => certifikatiGodine.Certifikat)
+                 .Any(certifikatiGodine
+                     => certifikatiGodine.Godina == godina
+                     && certifikatiGodine.Certifikat == certifikat
+                  );
 
         private bool AreValidInputs()
         {
@@ -95,31 +87,37 @@ namespace DLWMS.WinApp.IspitBrojIndeksa
                 Aktivan = true
             };
 
-            _DLWMSContext.Add(certifikatGodina);
-            _DLWMSContext.SaveChanges();
+            DB.Add(certifikatGodina);
+            DB.SaveChanges();
             LoadCertifikatiGodineIntoDgv();
 
+            // This is here purely for UX, so when you add something the input is emptied
             txtMjesecniIznos.Text = "";
         }
 
         private void IzvjestajBtnClick(object? sender, EventArgs e)
         {
-            int godina = int.Parse(cbGodina.SelectedItem.ToString());
-            var certifikat = (CertifikatiBrojIndeksa)cbCertifikat.SelectedItem;
+            if (dgvCertifikatiGodine.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Prije pokretanja radnje odaberite red u data grid view kontroli", "Greska");
+                return;
+            }
 
-            using frmReportBrojIndeksa frmReportBrojIndeksa = new(godina, certifikat);
+            var certifikatGodina = (CertifikatiGodineBrojIndeksa)dgvCertifikatiGodine.GetOdabraniRed();
+
+            using var frmReportBrojIndeksa = new frmIzvjestaji(certifikatGodina);
             frmReportBrojIndeksa.ShowDialog();
         }
 
         private bool DoesStudentCertifikatExist(Student student, CertifikatiGodineBrojIndeksa certifikatGodina)
-            => _DLWMSContext.StudentiCertifikati
-                         .Include(studentiCertifikati => studentiCertifikati.Student)
-                         .Include(studentiCertifikati => studentiCertifikati.CertifikatGodina)
-                         .ThenInclude(certifikatGodina => certifikatGodina.Certifikat)
-                         .Any(studentiCertifikati
-                            => studentiCertifikati.CertifikatGodina == certifikatGodina
-                            && studentiCertifikati.Student == student
-                         );
+            => DB.StudentiCertifikati
+                 .Include(studentiCertifikati => studentiCertifikati.Student)
+                 .Include(studentiCertifikati => studentiCertifikati.CertifikatGodina)
+                 .ThenInclude(certifikatGodina => certifikatGodina.Certifikat)
+                 .Any(studentiCertifikati
+                    => studentiCertifikati.CertifikatGodina == certifikatGodina
+                    && studentiCertifikati.Student == student
+                 );
 
         private void ScrollToEndOfTxtInfo()
         {
@@ -130,7 +128,7 @@ namespace DLWMS.WinApp.IspitBrojIndeksa
         private void LogToTxtInfo(string message)
         {
             Invoke(
-                () => 
+                () =>
                 {
                     txtInfo.Text += message;
                     ScrollToEndOfTxtInfo();
@@ -138,65 +136,48 @@ namespace DLWMS.WinApp.IspitBrojIndeksa
             );
         }
 
-        private void AddStudentCertifikat(Student student, CertifikatiGodineBrojIndeksa certifikatGodina)
+        private async Task GenerisiStudentiCertifikati(CertifikatiGodineBrojIndeksa certifikatGodina)
         {
-            StudentiCertifikatiBrojIndeksa studentCertifikat = new()
+            var studenti = DB.Studenti.ToList();
+
+            for (int i = 0; i < studenti.Count; ++i)
             {
-                Student = student,
-                CertifikatGodina = certifikatGodina 
-            };
+                var student = studenti[i];
 
-            _DLWMSContext.Add(studentCertifikat);
-            _DLWMSContext.SaveChanges();
-        }
-
-        private void GenerisiStudentiCertifikati(List<Student> students, CertifikatiGodineBrojIndeksa certifikatGodina)
-        {
-            for (int i = 0; i < students.Count; ++i)
-            {
-                Thread.Sleep(300);
-
-                if (DoesStudentCertifikatExist(students[i], certifikatGodina))
+                if (DoesStudentCertifikatExist(student, certifikatGodina))
                 {
-                    LogToTxtInfo($"{i + 1}. {certifikatGodina} vec dodijeljen {students[i]}{Environment.NewLine}");
+                    LogToTxtInfo($"{i + 1}. {certifikatGodina} vec dodijeljen {student}{Environment.NewLine}");
+                    continue;
                 }
-                else
+
+                StudentiCertifikatiBrojIndeksa studentCertifikat = new()
                 {
-                    AddStudentCertifikat(students[i], certifikatGodina);
-                    LogToTxtInfo($"{i + 1}. {certifikatGodina} po mjesecnoj cijeni od " +
-                    $"{certifikatGodina.MjesecniIznos} dodijeljen {students[i]}{Environment.NewLine}");
-                }
+                    Student = student,
+                    CertifikatGodina = certifikatGodina
+                };
+
+                DB.Add(studentCertifikat);
+
+                await Task.Delay(300);
+
+                LogToTxtInfo($"{i + 1}. {certifikatGodina} po mjesecnoj cijeni od " +
+                $"{certifikatGodina.MjesecniIznos} dodijeljen {student}{Environment.NewLine}");
             }
+
+            DB.SaveChanges();
         }
 
         private async void GenerisiBtnClick(object? sender, EventArgs e)
         {
-            int godina = int.Parse(cbGodina.SelectedItem.ToString());
-            var certifikat = (CertifikatiBrojIndeksa)cbCertifikat.SelectedItem;
-
-            List<Student> students = _DLWMSContext.Studenti.ToList();
-            CertifikatiGodineBrojIndeksa certifikatGodina;
-
-            try
+            if (dgvCertifikatiGodine.SelectedRows.Count == 0)
             {
-                certifikatGodina = _DLWMSContext.CertifikatiGodine
-                                                 .Include(certifikatiGodine => certifikatiGodine.Certifikat)
-                                                 .First(
-                                                    certifikatiGodine
-                                                       => certifikatiGodine.Godina == godina
-                                                       && certifikatiGodine.Certifikat == certifikat
-                                                 );
-            }
-            catch
-            {
-                MessageBox.Show(
-                    $"Za odabranu godinu {godina} nije dodan certifikat {certifikat}",
-                    "Nevalidna radnja"
-                );
+                MessageBox.Show("Prije pokretanja radnje odaberite red u data grid view kontroli", "Greska");
                 return;
             }
 
-            await Task.Run(() => GenerisiStudentiCertifikati(students, certifikatGodina));
+            var certifikatGodina = (CertifikatiGodineBrojIndeksa)dgvCertifikatiGodine.GetOdabraniRed();
+
+            await Task.Run(async () => await GenerisiStudentiCertifikati(certifikatGodina));
 
             MessageBox.Show("Uspjesno generisani podatci", "Generisanje uspjesno");
             LoadCertifikatiGodineIntoDgv();
@@ -213,8 +194,8 @@ namespace DLWMS.WinApp.IspitBrojIndeksa
 
             certifikatGodina.Aktivan = !certifikatGodina.Aktivan;
 
-            _DLWMSContext.Update(certifikatGodina);
-            _DLWMSContext.SaveChanges();
+            DB.Update(certifikatGodina);
+            DB.SaveChanges();
             LoadCertifikatiGodineIntoDgv();
         }
     }
