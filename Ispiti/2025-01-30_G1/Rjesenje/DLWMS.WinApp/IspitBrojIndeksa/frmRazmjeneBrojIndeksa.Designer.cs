@@ -51,12 +51,12 @@
             glblUniverzitet = new Label();
             gcbUniverzitet = new ComboBox();
             btnPotvrda = new Button();
-            RazmjenaUniverzitet = new DataGridViewTextBoxColumn();
-            RazmjenaPocetak = new DataGridViewTextBoxColumn();
-            RazmjenaKraj = new DataGridViewTextBoxColumn();
-            RazmjenaECTS = new DataGridViewTextBoxColumn();
-            RazmjenaOkoncana = new DataGridViewCheckBoxColumn();
-            RazmjenaObrisiBtn = new DataGridViewButtonColumn();
+            Univerzitet = new DataGridViewTextBoxColumn();
+            Pocetak = new DataGridViewTextBoxColumn();
+            Kraj = new DataGridViewTextBoxColumn();
+            ECTS = new DataGridViewTextBoxColumn();
+            Okoncana = new DataGridViewCheckBoxColumn();
+            ObrisiBtn = new DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)dgvRazmjene).BeginInit();
             gbGenerator.SuspendLayout();
             SuspendLayout();
@@ -160,10 +160,11 @@
             // dgvRazmjene
             // 
             dgvRazmjene.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvRazmjene.Columns.AddRange(new DataGridViewColumn[] { RazmjenaUniverzitet, RazmjenaPocetak, RazmjenaKraj, RazmjenaECTS, RazmjenaOkoncana, RazmjenaObrisiBtn });
+            dgvRazmjene.Columns.AddRange(new DataGridViewColumn[] { Univerzitet, Pocetak, Kraj, ECTS, Okoncana, ObrisiBtn });
             dgvRazmjene.Location = new Point(12, 66);
             dgvRazmjene.Name = "dgvRazmjene";
             dgvRazmjene.RowHeadersWidth = 51;
+            dgvRazmjene.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvRazmjene.Size = new Size(1316, 225);
             dgvRazmjene.TabIndex = 11;
             dgvRazmjene.CellClick += RazmjeneDgvCellClick;
@@ -276,54 +277,54 @@
             btnPotvrda.UseVisualStyleBackColor = true;
             btnPotvrda.Click += PotvrdaBtnClick;
             // 
-            // RazmjenaUniverzitet
+            // Univerzitet
             // 
-            RazmjenaUniverzitet.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            RazmjenaUniverzitet.DataPropertyName = "Univerzitet";
-            RazmjenaUniverzitet.HeaderText = "Univerzitet";
-            RazmjenaUniverzitet.MinimumWidth = 6;
-            RazmjenaUniverzitet.Name = "RazmjenaUniverzitet";
+            Univerzitet.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Univerzitet.DataPropertyName = "Univerzitet";
+            Univerzitet.HeaderText = "Univerzitet";
+            Univerzitet.MinimumWidth = 6;
+            Univerzitet.Name = "Univerzitet";
             // 
-            // RazmjenaPocetak
+            // Pocetak
             // 
-            RazmjenaPocetak.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            RazmjenaPocetak.DataPropertyName = "Pocetak";
-            RazmjenaPocetak.HeaderText = "Pocetak";
-            RazmjenaPocetak.MinimumWidth = 6;
-            RazmjenaPocetak.Name = "RazmjenaPocetak";
+            Pocetak.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Pocetak.DataPropertyName = "Pocetak";
+            Pocetak.HeaderText = "Pocetak";
+            Pocetak.MinimumWidth = 6;
+            Pocetak.Name = "Pocetak";
             // 
-            // RazmjenaKraj
+            // Kraj
             // 
-            RazmjenaKraj.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            RazmjenaKraj.DataPropertyName = "Kraj";
-            RazmjenaKraj.HeaderText = "Kraj";
-            RazmjenaKraj.MinimumWidth = 6;
-            RazmjenaKraj.Name = "RazmjenaKraj";
+            Kraj.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Kraj.DataPropertyName = "Kraj";
+            Kraj.HeaderText = "Kraj";
+            Kraj.MinimumWidth = 6;
+            Kraj.Name = "Kraj";
             // 
-            // RazmjenaECTS
+            // ECTS
             // 
-            RazmjenaECTS.DataPropertyName = "ECTS";
-            RazmjenaECTS.HeaderText = "ECTS";
-            RazmjenaECTS.MinimumWidth = 6;
-            RazmjenaECTS.Name = "RazmjenaECTS";
-            RazmjenaECTS.Width = 125;
+            ECTS.DataPropertyName = "ECTS";
+            ECTS.HeaderText = "ECTS";
+            ECTS.MinimumWidth = 6;
+            ECTS.Name = "ECTS";
+            ECTS.Width = 125;
             // 
-            // RazmjenaOkoncana
+            // Okoncana
             // 
-            RazmjenaOkoncana.DataPropertyName = "Okoncano";
-            RazmjenaOkoncana.HeaderText = "Okoncana";
-            RazmjenaOkoncana.MinimumWidth = 6;
-            RazmjenaOkoncana.Name = "RazmjenaOkoncana";
-            RazmjenaOkoncana.Width = 125;
+            Okoncana.DataPropertyName = "Okoncano";
+            Okoncana.HeaderText = "Okoncana";
+            Okoncana.MinimumWidth = 6;
+            Okoncana.Name = "Okoncana";
+            Okoncana.Width = 125;
             // 
-            // RazmjenaObrisiBtn
+            // ObrisiBtn
             // 
-            RazmjenaObrisiBtn.HeaderText = "";
-            RazmjenaObrisiBtn.MinimumWidth = 6;
-            RazmjenaObrisiBtn.Name = "RazmjenaObrisiBtn";
-            RazmjenaObrisiBtn.Text = "Obrisi";
-            RazmjenaObrisiBtn.UseColumnTextForButtonValue = true;
-            RazmjenaObrisiBtn.Width = 125;
+            ObrisiBtn.HeaderText = "";
+            ObrisiBtn.MinimumWidth = 6;
+            ObrisiBtn.Name = "ObrisiBtn";
+            ObrisiBtn.Text = "Obrisi";
+            ObrisiBtn.UseColumnTextForButtonValue = true;
+            ObrisiBtn.Width = 125;
             // 
             // frmRazmjeneBrojIndeksa
             // 
@@ -379,11 +380,11 @@
         private Label glblECTS;
         private Label glblUniverzitet;
         private ComboBox gcbUniverzitet;
-        private DataGridViewTextBoxColumn RazmjenaUniverzitet;
-        private DataGridViewTextBoxColumn RazmjenaPocetak;
-        private DataGridViewTextBoxColumn RazmjenaKraj;
-        private DataGridViewTextBoxColumn RazmjenaECTS;
-        private DataGridViewCheckBoxColumn RazmjenaOkoncana;
-        private DataGridViewButtonColumn RazmjenaObrisiBtn;
+        private DataGridViewTextBoxColumn Univerzitet;
+        private DataGridViewTextBoxColumn Pocetak;
+        private DataGridViewTextBoxColumn Kraj;
+        private DataGridViewTextBoxColumn ECTS;
+        private DataGridViewCheckBoxColumn Okoncana;
+        private DataGridViewButtonColumn ObrisiBtn;
     }
 }

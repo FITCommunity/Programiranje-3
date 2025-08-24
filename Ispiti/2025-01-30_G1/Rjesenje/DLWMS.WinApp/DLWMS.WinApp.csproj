@@ -28,11 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="IspitBrojIndeksa\DataSetBrojIndeksa.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>DataSetBrojIndeksa.xsd</DependentUpon>
-    </Compile>
     <Compile Update="Izvjestaji\dsDLWMS.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -64,13 +59,6 @@
   <ItemGroup>
     <None Update="DLWMS.db">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="IspitBrojIndeksa\DataSetBrojIndeksa.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DataSetBrojIndeksa.Designer.cs</LastGenOutput>
-    </None>
-    <None Update="IspitBrojIndeksa\ReportRazmjenaBrojIndeksa.rdlc">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Izvjestaji\dsDLWMS.xsd">
       <Generator>MSDataSetGenerator</Generator>

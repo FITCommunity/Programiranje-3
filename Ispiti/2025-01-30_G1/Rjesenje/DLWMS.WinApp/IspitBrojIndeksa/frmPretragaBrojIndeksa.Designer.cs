@@ -35,12 +35,12 @@
             lblDrzava = new Label();
             lblSpol = new Label();
             dgvStudenti = new DataGridView();
-            StudentIndeksImePrezime = new DataGridViewTextBoxColumn();
-            StudentDrzava = new DataGridViewTextBoxColumn();
-            StudentGrad = new DataGridViewTextBoxColumn();
-            StudentSpol = new DataGridViewTextBoxColumn();
-            StudentAktivan = new DataGridViewCheckBoxColumn();
-            StudentRazmjeneBtn = new DataGridViewButtonColumn();
+            IndeksImePrezime = new DataGridViewTextBoxColumn();
+            Drzava = new DataGridViewTextBoxColumn();
+            Grad = new DataGridViewTextBoxColumn();
+            Spol = new DataGridViewTextBoxColumn();
+            Aktivan = new DataGridViewCheckBoxColumn();
+            RazmjeneBtn = new DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)dgvStudenti).BeginInit();
             SuspendLayout();
             // 
@@ -102,63 +102,68 @@
             // dgvStudenti
             // 
             dgvStudenti.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvStudenti.Columns.AddRange(new DataGridViewColumn[] { StudentIndeksImePrezime, StudentDrzava, StudentGrad, StudentSpol, StudentAktivan, StudentRazmjeneBtn });
+            dgvStudenti.Columns.AddRange(new DataGridViewColumn[] { IndeksImePrezime, Drzava, Grad, Spol, Aktivan, RazmjeneBtn });
             dgvStudenti.Location = new Point(12, 65);
             dgvStudenti.Name = "dgvStudenti";
             dgvStudenti.RowHeadersWidth = 51;
+            dgvStudenti.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvStudenti.Size = new Size(1050, 305);
             dgvStudenti.TabIndex = 6;
             dgvStudenti.CellClick += StudentiDgvCellClick;
             dgvStudenti.CellDoubleClick += StudentiDgvCellDoubleClick;
             // 
-            // StudentIndeksImePrezime
+            // IndeksImePrezime
             // 
-            StudentIndeksImePrezime.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            StudentIndeksImePrezime.DataPropertyName = "IndeksImePrezime";
-            StudentIndeksImePrezime.HeaderText = "(Indeks) Ime i prezime";
-            StudentIndeksImePrezime.MinimumWidth = 6;
-            StudentIndeksImePrezime.Name = "StudentIndeksImePrezime";
+            IndeksImePrezime.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            IndeksImePrezime.DataPropertyName = "IndeksImePrezime";
+            IndeksImePrezime.HeaderText = "(Indeks) Ime i prezime";
+            IndeksImePrezime.MinimumWidth = 6;
+            IndeksImePrezime.Name = "IndeksImePrezime";
+            IndeksImePrezime.SortMode = DataGridViewColumnSortMode.NotSortable;
             // 
-            // StudentDrzava
+            // Drzava
             // 
-            StudentDrzava.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            StudentDrzava.DataPropertyName = "Drzava";
-            StudentDrzava.HeaderText = "Drzava";
-            StudentDrzava.MinimumWidth = 6;
-            StudentDrzava.Name = "StudentDrzava";
+            Drzava.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Drzava.DataPropertyName = "Drzava";
+            Drzava.HeaderText = "Drzava";
+            Drzava.MinimumWidth = 6;
+            Drzava.Name = "Drzava";
+            Drzava.SortMode = DataGridViewColumnSortMode.NotSortable;
             // 
-            // StudentGrad
+            // Grad
             // 
-            StudentGrad.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            StudentGrad.DataPropertyName = "Grad";
-            StudentGrad.HeaderText = "Grad";
-            StudentGrad.MinimumWidth = 6;
-            StudentGrad.Name = "StudentGrad";
+            Grad.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Grad.DataPropertyName = "Grad";
+            Grad.HeaderText = "Grad";
+            Grad.MinimumWidth = 6;
+            Grad.Name = "Grad";
+            Grad.SortMode = DataGridViewColumnSortMode.NotSortable;
             // 
-            // StudentSpol
+            // Spol
             // 
-            StudentSpol.DataPropertyName = "Spol";
-            StudentSpol.HeaderText = "Spol";
-            StudentSpol.MinimumWidth = 6;
-            StudentSpol.Name = "StudentSpol";
-            StudentSpol.Width = 125;
+            Spol.DataPropertyName = "Spol";
+            Spol.HeaderText = "Spol";
+            Spol.MinimumWidth = 6;
+            Spol.Name = "Spol";
+            Spol.SortMode = DataGridViewColumnSortMode.NotSortable;
+            Spol.Width = 125;
             // 
-            // StudentAktivan
+            // Aktivan
             // 
-            StudentAktivan.DataPropertyName = "Aktivan";
-            StudentAktivan.HeaderText = "Aktivan";
-            StudentAktivan.MinimumWidth = 6;
-            StudentAktivan.Name = "StudentAktivan";
-            StudentAktivan.Width = 125;
+            Aktivan.DataPropertyName = "Aktivan";
+            Aktivan.HeaderText = "Aktivan";
+            Aktivan.MinimumWidth = 6;
+            Aktivan.Name = "Aktivan";
+            Aktivan.Width = 125;
             // 
-            // StudentRazmjeneBtn
+            // RazmjeneBtn
             // 
-            StudentRazmjeneBtn.HeaderText = "";
-            StudentRazmjeneBtn.MinimumWidth = 6;
-            StudentRazmjeneBtn.Name = "StudentRazmjeneBtn";
-            StudentRazmjeneBtn.Text = "Razmjene";
-            StudentRazmjeneBtn.UseColumnTextForButtonValue = true;
-            StudentRazmjeneBtn.Width = 125;
+            RazmjeneBtn.HeaderText = "";
+            RazmjeneBtn.MinimumWidth = 6;
+            RazmjeneBtn.Name = "RazmjeneBtn";
+            RazmjeneBtn.Text = "Razmjene";
+            RazmjeneBtn.UseColumnTextForButtonValue = true;
+            RazmjeneBtn.Width = 125;
             // 
             // frmPretragaBrojIndeksa
             // 
@@ -190,11 +195,11 @@
         private Label lblDrzava;
         private Label lblSpol;
         private DataGridView dgvStudenti;
-        private DataGridViewTextBoxColumn StudentIndeksImePrezime;
-        private DataGridViewTextBoxColumn StudentDrzava;
-        private DataGridViewTextBoxColumn StudentGrad;
-        private DataGridViewTextBoxColumn StudentSpol;
-        private DataGridViewCheckBoxColumn StudentAktivan;
-        private DataGridViewButtonColumn StudentRazmjeneBtn;
+        private DataGridViewTextBoxColumn IndeksImePrezime;
+        private DataGridViewTextBoxColumn Drzava;
+        private DataGridViewTextBoxColumn Grad;
+        private DataGridViewTextBoxColumn Spol;
+        private DataGridViewCheckBoxColumn Aktivan;
+        private DataGridViewButtonColumn RazmjeneBtn;
     }
 }
