@@ -35,12 +35,12 @@
             btnCertifikatiPoGodinama = new Button();
             btnAddCertifikat = new Button();
             dgvStudentiCertifikati = new DataGridView();
-            StudentCertifikatIndeksImePrezime = new DataGridViewTextBoxColumn();
-            StudentCertifikatGodina = new DataGridViewTextBoxColumn();
-            StudentCertifikatNaziv = new DataGridViewTextBoxColumn();
-            StudentCertifikatMjesecniIznos = new DataGridViewTextBoxColumn();
-            StudentCertifikatUkupniIznos = new DataGridViewTextBoxColumn();
-            StudentCertifikatUkloniBtn = new DataGridViewButtonColumn();
+            IndeksImePrezime = new DataGridViewTextBoxColumn();
+            Godina = new DataGridViewTextBoxColumn();
+            Certifikat = new DataGridViewTextBoxColumn();
+            MjesecniIznos = new DataGridViewTextBoxColumn();
+            UkupniIznos = new DataGridViewTextBoxColumn();
+            UkloniBtn = new DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)dgvStudentiCertifikati).BeginInit();
             SuspendLayout();
             // 
@@ -106,63 +106,69 @@
             // dgvStudentiCertifikati
             // 
             dgvStudentiCertifikati.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvStudentiCertifikati.Columns.AddRange(new DataGridViewColumn[] { StudentCertifikatIndeksImePrezime, StudentCertifikatGodina, StudentCertifikatNaziv, StudentCertifikatMjesecniIznos, StudentCertifikatUkupniIznos, StudentCertifikatUkloniBtn });
+            dgvStudentiCertifikati.Columns.AddRange(new DataGridViewColumn[] { IndeksImePrezime, Godina, Certifikat, MjesecniIznos, UkupniIznos, UkloniBtn });
             dgvStudentiCertifikati.Location = new Point(12, 66);
             dgvStudentiCertifikati.Name = "dgvStudentiCertifikati";
             dgvStudentiCertifikati.RowHeadersWidth = 51;
+            dgvStudentiCertifikati.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvStudentiCertifikati.Size = new Size(1099, 372);
             dgvStudentiCertifikati.TabIndex = 6;
             dgvStudentiCertifikati.CellClick += StudentiCertifikatiDgvCellClick;
             dgvStudentiCertifikati.CellDoubleClick += StudentiCertifikatiDgvCellDoubleClick;
             // 
-            // StudentCertifikatIndeksImePrezime
+            // IndeksImePrezime
             // 
-            StudentCertifikatIndeksImePrezime.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            StudentCertifikatIndeksImePrezime.DataPropertyName = "Student";
-            StudentCertifikatIndeksImePrezime.HeaderText = "(Indeks) Ime i prezime";
-            StudentCertifikatIndeksImePrezime.MinimumWidth = 6;
-            StudentCertifikatIndeksImePrezime.Name = "StudentCertifikatIndeksImePrezime";
+            IndeksImePrezime.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            IndeksImePrezime.DataPropertyName = "Student";
+            IndeksImePrezime.HeaderText = "(Indeks) Ime i prezime";
+            IndeksImePrezime.MinimumWidth = 6;
+            IndeksImePrezime.Name = "IndeksImePrezime";
+            IndeksImePrezime.SortMode = DataGridViewColumnSortMode.NotSortable;
             // 
-            // StudentCertifikatGodina
+            // Godina
             // 
-            StudentCertifikatGodina.DataPropertyName = "Godina";
-            StudentCertifikatGodina.HeaderText = "Godina";
-            StudentCertifikatGodina.MinimumWidth = 6;
-            StudentCertifikatGodina.Name = "StudentCertifikatGodina";
-            StudentCertifikatGodina.Width = 125;
+            Godina.DataPropertyName = "Godina";
+            Godina.HeaderText = "Godina";
+            Godina.MinimumWidth = 6;
+            Godina.Name = "Godina";
+            Godina.SortMode = DataGridViewColumnSortMode.NotSortable;
+            Godina.Width = 125;
             // 
-            // StudentCertifikatNaziv
+            // Certifikat
             // 
-            StudentCertifikatNaziv.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            StudentCertifikatNaziv.DataPropertyName = "CertifikatGodina";
-            StudentCertifikatNaziv.HeaderText = "Certifikat";
-            StudentCertifikatNaziv.MinimumWidth = 6;
-            StudentCertifikatNaziv.Name = "StudentCertifikatNaziv";
+            Certifikat.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Certifikat.DataPropertyName = "CertifikatGodina";
+            Certifikat.HeaderText = "Certifikat";
+            Certifikat.MinimumWidth = 6;
+            Certifikat.Name = "Certifikat";
+            Certifikat.SortMode = DataGridViewColumnSortMode.NotSortable;
             // 
-            // StudentCertifikatMjesecniIznos
+            // MjesecniIznos
             // 
-            StudentCertifikatMjesecniIznos.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            StudentCertifikatMjesecniIznos.DataPropertyName = "MjesecniIznos";
-            StudentCertifikatMjesecniIznos.HeaderText = "Mjesecni iznos";
-            StudentCertifikatMjesecniIznos.MinimumWidth = 6;
-            StudentCertifikatMjesecniIznos.Name = "StudentCertifikatMjesecniIznos";
+            MjesecniIznos.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            MjesecniIznos.DataPropertyName = "MjesecniIznos";
+            MjesecniIznos.HeaderText = "Mjesecni iznos";
+            MjesecniIznos.MinimumWidth = 6;
+            MjesecniIznos.Name = "MjesecniIznos";
+            MjesecniIznos.SortMode = DataGridViewColumnSortMode.NotSortable;
             // 
-            // StudentCertifikatUkupniIznos
+            // UkupniIznos
             // 
-            StudentCertifikatUkupniIznos.DataPropertyName = "UkupniIznos";
-            StudentCertifikatUkupniIznos.HeaderText = "Ukupni iznos";
-            StudentCertifikatUkupniIznos.MinimumWidth = 6;
-            StudentCertifikatUkupniIznos.Name = "StudentCertifikatUkupniIznos";
-            StudentCertifikatUkupniIznos.Width = 125;
+            UkupniIznos.DataPropertyName = "UkupniIznos";
+            UkupniIznos.HeaderText = "Ukupni iznos";
+            UkupniIznos.MinimumWidth = 6;
+            UkupniIznos.Name = "UkupniIznos";
+            UkupniIznos.SortMode = DataGridViewColumnSortMode.NotSortable;
+            UkupniIznos.Width = 125;
             // 
-            // StudentCertifikatUkloniBtn
+            // UkloniBtn
             // 
-            StudentCertifikatUkloniBtn.HeaderText = "";
-            StudentCertifikatUkloniBtn.MinimumWidth = 6;
-            StudentCertifikatUkloniBtn.Name = "StudentCertifikatUkloniBtn";
-            StudentCertifikatUkloniBtn.Text = "Ukloni";
-            StudentCertifikatUkloniBtn.UseColumnTextForButtonValue = true;
-            StudentCertifikatUkloniBtn.Width = 125;
+            UkloniBtn.HeaderText = "";
+            UkloniBtn.MinimumWidth = 6;
+            UkloniBtn.Name = "UkloniBtn";
+            UkloniBtn.Text = "Ukloni";
+            UkloniBtn.UseColumnTextForButtonValue = true;
+            UkloniBtn.Width = 125;
             // 
             // frmPretragaBrojIndeksa
             // 
@@ -194,11 +200,11 @@
         private Button btnCertifikatiPoGodinama;
         private Button btnAddCertifikat;
         private DataGridView dgvStudentiCertifikati;
-        private DataGridViewTextBoxColumn StudentCertifikatIndeksImePrezime;
-        private DataGridViewTextBoxColumn StudentCertifikatGodina;
-        private DataGridViewTextBoxColumn StudentCertifikatNaziv;
-        private DataGridViewTextBoxColumn StudentCertifikatMjesecniIznos;
-        private DataGridViewTextBoxColumn StudentCertifikatUkupniIznos;
-        private DataGridViewButtonColumn StudentCertifikatUkloniBtn;
+        private DataGridViewTextBoxColumn IndeksImePrezime;
+        private DataGridViewTextBoxColumn Godina;
+        private DataGridViewTextBoxColumn Certifikat;
+        private DataGridViewTextBoxColumn MjesecniIznos;
+        private DataGridViewTextBoxColumn UkupniIznos;
+        private DataGridViewButtonColumn UkloniBtn;
     }
 }

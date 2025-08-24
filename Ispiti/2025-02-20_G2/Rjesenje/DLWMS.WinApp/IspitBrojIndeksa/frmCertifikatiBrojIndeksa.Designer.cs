@@ -119,6 +119,7 @@
             dgvCertifikatiGodine.Location = new Point(12, 66);
             dgvCertifikatiGodine.Name = "dgvCertifikatiGodine";
             dgvCertifikatiGodine.RowHeadersWidth = 51;
+            dgvCertifikatiGodine.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvCertifikatiGodine.Size = new Size(895, 254);
             dgvCertifikatiGodine.TabIndex = 11;
             dgvCertifikatiGodine.CellDoubleClick += CertifikatiGodineDgvCellDoubleClick;
@@ -170,6 +171,7 @@
             CertifikatGodinaGodina.HeaderText = "Godina";
             CertifikatGodinaGodina.MinimumWidth = 6;
             CertifikatGodinaGodina.Name = "CertifikatGodinaGodina";
+            CertifikatGodinaGodina.SortMode = DataGridViewColumnSortMode.NotSortable;
             CertifikatGodinaGodina.Width = 125;
             // 
             // CertifikatGodinaNaziv
@@ -179,6 +181,7 @@
             CertifikatGodinaNaziv.HeaderText = "Certifikat";
             CertifikatGodinaNaziv.MinimumWidth = 6;
             CertifikatGodinaNaziv.Name = "CertifikatGodinaNaziv";
+            CertifikatGodinaNaziv.SortMode = DataGridViewColumnSortMode.NotSortable;
             // 
             // CertifikatGodinaMjesecniIznos
             // 
@@ -187,7 +190,8 @@
             CertifikatGodinaMjesecniIznos.HeaderText = "Mjesecni iznos";
             CertifikatGodinaMjesecniIznos.MinimumWidth = 6;
             CertifikatGodinaMjesecniIznos.Name = "CertifikatGodinaMjesecniIznos";
-            CertifikatGodinaMjesecniIznos.Width = 134;
+            CertifikatGodinaMjesecniIznos.SortMode = DataGridViewColumnSortMode.NotSortable;
+            CertifikatGodinaMjesecniIznos.Width = 111;
             // 
             // CertifikatGodinaUkupniIznos
             // 
@@ -195,6 +199,7 @@
             CertifikatGodinaUkupniIznos.HeaderText = "Ukupni iznos";
             CertifikatGodinaUkupniIznos.MinimumWidth = 6;
             CertifikatGodinaUkupniIznos.Name = "CertifikatGodinaUkupniIznos";
+            CertifikatGodinaUkupniIznos.SortMode = DataGridViewColumnSortMode.NotSortable;
             CertifikatGodinaUkupniIznos.Width = 125;
             // 
             // CertifikatGodinaAktivan

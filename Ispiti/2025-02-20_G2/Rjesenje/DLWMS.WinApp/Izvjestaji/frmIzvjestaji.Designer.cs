@@ -28,35 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
-            reportViewer1 = new Microsoft.Reporting.WinForms.ReportViewer();
+            reportViewer = new Microsoft.Reporting.WinForms.ReportViewer();
             SuspendLayout();
             // 
-            // reportViewer1
+            // reportViewer
             // 
-            reportViewer1.Dock = DockStyle.Fill;
-            reportViewer1.LocalReport.ReportEmbeddedResource = "DLWMS.WinApp.Izvjestaji.rptKartonStudenta.rdlc";
-            reportViewer1.Location = new Point(0, 0);
-            reportViewer1.Name = "ReportViewer";
-            reportViewer1.ServerReport.BearerToken = null;
-            reportViewer1.Size = new Size(847, 495);
-            reportViewer1.TabIndex = 0;
+            reportViewer.Dock = DockStyle.Fill;
+            reportViewer.LocalReport.ReportEmbeddedResource = "DLWMS.WinApp.Izvjestaji.rptKartonStudenta.rdlc";
+            reportViewer.Location = new Point(0, 0);
+            reportViewer.Name = "ReportViewer";
+            reportViewer.ServerReport.BearerToken = null;
+            reportViewer.Size = new Size(800, 450);
+            reportViewer.TabIndex = 0;
             // 
             // frmIzvjestaji
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(847, 495);
-            Controls.Add(reportViewer1);
+            ClientSize = new Size(800, 450);
+            Controls.Add(reportViewer);
             Name = "frmIzvjestaji";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Pregled izvještaja";
-            WindowState = FormWindowState.Maximized;
-            Load += frmIzvjestaji_Load;
+            Text = "Certifikati Report";
+            Load += ReportBrojIndeksaFormLoad;
             ResumeLayout(false);
         }
 
         #endregion
 
-        private Microsoft.Reporting.WinForms.ReportViewer reportViewer1;
+        private Microsoft.Reporting.WinForms.ReportViewer reportViewer;
     }
 }
