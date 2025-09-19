@@ -48,7 +48,7 @@
             ClientSize = new Size(800, 450);
             Controls.Add(reportViewer);
             FormBorderStyle = FormBorderStyle.FixedSingle;
-            Name = "frmRazmjenaReportBrojIndeksa";
+            Name = "frmIzvjestaji";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Razmjene Report";
             Load += RazmjenaReportBrojIndeksaFormLoad;
