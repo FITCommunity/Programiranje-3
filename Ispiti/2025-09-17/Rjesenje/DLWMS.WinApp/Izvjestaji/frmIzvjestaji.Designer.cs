@@ -28,35 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
-            reportViewer = new Microsoft.Reporting.WinForms.ReportViewer();
+            reportViewer1 = new Microsoft.Reporting.WinForms.ReportViewer();
             SuspendLayout();
             // 
-            // reportViewer
+            // reportViewer1
             // 
-            reportViewer.Dock = DockStyle.Fill;
-            reportViewer.LocalReport.ReportEmbeddedResource = "DLWMS.WinApp.Izvjestaji.rptKartonStudenta.rdlc";
-            reportViewer.Location = new Point(0, 0);
-            reportViewer.Name = "ReportViewer";
-            reportViewer.ServerReport.BearerToken = null;
-            reportViewer.Size = new Size(800, 450);
-            reportViewer.TabIndex = 0;
+            reportViewer1.Dock = DockStyle.Fill;
+            reportViewer1.LocalReport.ReportEmbeddedResource = "DLWMS.WinApp.Izvjestaji.rptKartonStudenta.rdlc";
+            reportViewer1.Location = new Point(0, 0);
+            reportViewer1.Name = "ReportViewer";
+            reportViewer1.ServerReport.BearerToken = null;
+            reportViewer1.Size = new Size(847, 495);
+            reportViewer1.TabIndex = 0;
             // 
-            // frmRazmjenaReportBrojIndeksa
+            // frmIzvjestaji
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
-            Controls.Add(reportViewer);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
+            ClientSize = new Size(847, 495);
+            Controls.Add(reportViewer1);
             Name = "frmIzvjestaji";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Razmjene Report";
-            Load += RazmjenaReportBrojIndeksaFormLoad;
+            Text = "Pregled izvještaja";
+            WindowState = FormWindowState.Maximized;
+            Load += frmIzvjestaji_Load;
             ResumeLayout(false);
         }
 
         #endregion
 
-        private Microsoft.Reporting.WinForms.ReportViewer reportViewer;
+        private Microsoft.Reporting.WinForms.ReportViewer reportViewer1;
     }
 }

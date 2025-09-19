@@ -23,10 +23,13 @@ namespace DLWMS.WinApp.IspitBrojIndeksa
         private void LoadStipendijeGodineIntoComboBox()
         {
             var godina = cbGodina.SelectedItem.ToString();
+            bool toggleState = chbToggle.Checked;
 
             cbStipendijaGodina.DataSource = DB.StipendijeGodine
                               .Include(stipendijaGodina => stipendijaGodina.StipendijeBrojIndeksa)
-                              .Where(stipendijaGodina => stipendijaGodina.Godina.ToString() == godina)
+                              .Where(stipendijaGodina => 
+                                 stipendijaGodina.Godina.ToString() == godina 
+                              && stipendijaGodina.Aktivna == toggleState)
                               .ToList();
         }
 
@@ -37,7 +40,7 @@ namespace DLWMS.WinApp.IspitBrojIndeksa
 
             var studentiStipendije = DB.StudentiStipendije
                                  .Include(studentiStipendije => studentiStipendije.Studenti)
-                                 .Include(studentiStipendije=>studentiStipendije.StipendijeGodineBrojIndeksa)
+                                 .Include(studentiStipendije => studentiStipendije.StipendijeGodineBrojIndeksa)
                                  .ThenInclude(stipendijaGodina => stipendijaGodina.StipendijeBrojIndeksa)
                                  .Where(studentiStipendije => studentiStipendije.StipendijeGodineBrojIndeksa == stipendijaGodina)
                                  .ToList();
@@ -45,9 +48,9 @@ namespace DLWMS.WinApp.IspitBrojIndeksa
             dgvStudentiStipendije.DataSource = studentiStipendije;
             Text = $"Broj prikazanih studenata: {studentiStipendije.Count}";
 
-            if (studentiStipendije.Count == 0) 
+            if (studentiStipendije.Count == 0)
             {
-                string nazivStipendije = (stipendijaGodina == null) ? 
+                string nazivStipendije = (stipendijaGodina == null) ?
                     "Nema naziva za stipendiju" : stipendijaGodina.StipendijeBrojIndeksa.Naziv;
 
                 MessageBox.Show($"U bazi nisu evidentirani studenti kojima je u {godina}.godini dodijeljena {nazivStipendije}.");
@@ -65,7 +68,7 @@ namespace DLWMS.WinApp.IspitBrojIndeksa
 
         private void DgvStudentiStipendijeCellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0 || e.ColumnIndex != BtnUkloni.Index) 
+            if (e.RowIndex < 0 || e.ColumnIndex != BtnUkloni.Index)
             {
                 return;
             }
@@ -73,7 +76,7 @@ namespace DLWMS.WinApp.IspitBrojIndeksa
             var studentStipendija = (StudentiStipendijeBrojIndeksa)dgvStudentiStipendije.GetOdabraniRed();
             DialogResult dialogResult = MessageBox.Show("Da li ste sigurni da zelite obrisati stipendiju za odabranog studenta?", "Brisanje stipendije za studenta", MessageBoxButtons.YesNo);
 
-            if (dialogResult == DialogResult.Yes) 
+            if (dialogResult == DialogResult.Yes)
             {
                 DB.Remove(studentStipendija);
                 DB.SaveChanges();
@@ -107,6 +110,12 @@ namespace DLWMS.WinApp.IspitBrojIndeksa
             using var formaStipendijePoGodinama = new frmStipendijeBrojIndeksa();
             formaStipendijePoGodinama.ShowDialog();
             LoadStipendijeGodineIntoComboBox();
+        }
+
+        private void ToggleCheckBoxClick(object sender, EventArgs e)
+        {
+            LoadStipendijeGodineIntoComboBox();
+            LoadStudentiStipendijeIntoDgv();
         }
     }
 }
