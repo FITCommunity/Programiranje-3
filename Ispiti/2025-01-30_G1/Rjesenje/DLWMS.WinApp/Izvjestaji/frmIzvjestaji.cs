@@ -21,7 +21,9 @@ namespace DLWMS.WinApp.Izvjestaji
 
         private void RazmjenaReportBrojIndeksaFormLoad(object? sender, EventArgs e)
         {
-            int ectsTotal = _student.Razmjene.Sum(razmjena => razmjena.ECTS);
+            int ectsTotal = _student.Razmjene
+                                    .Where(razmjena => razmjena.Okoncano)
+                                    .Sum(razmjena => razmjena.ECTS);
 
             ReportParameterCollection reportParameters = new()
             {
