@@ -104,7 +104,7 @@ namespace DLWMS.WinApp.IspitBrojIndeksa
 
         private void StipendijePoGodinamaBtnClick(object sender, EventArgs e)
         {
-            var formaStipendijePoGodinama = new frmStipendijeBrojIndeksa();
+            using var formaStipendijePoGodinama = new frmStipendijeBrojIndeksa();
             formaStipendijePoGodinama.ShowDialog();
             LoadStipendijeGodineIntoComboBox();
         }
