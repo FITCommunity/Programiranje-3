@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsIzvjestaji" targetNamespace="http://tempuri.org/dsIzvjestaji.xsd" xmlns:mstns="http://tempuri.org/dsIzvjestaji.xsd" xmlns="http://tempuri.org/dsIzvjestaji.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsIzvjestaji" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="dsIzvjestaji" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="dsIzvjestaji">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Iznajmljivanja" msprop:Generator_RowEvHandlerName="IznajmljivanjaRowChangeEventHandler" msprop:Generator_RowDeletedName="IznajmljivanjaRowDeleted" msprop:Generator_RowDeletingName="IznajmljivanjaRowDeleting" msprop:Generator_RowEvArgName="IznajmljivanjaRowChangeEvent" msprop:Generator_TablePropName="Iznajmljivanja" msprop:Generator_RowChangedName="IznajmljivanjaRowChanged" msprop:Generator_RowChangingName="IznajmljivanjaRowChanging" msprop:Generator_TableClassName="IznajmljivanjaDataTable" msprop:Generator_RowClassName="IznajmljivanjaRow" msprop:Generator_TableVarName="tableIznajmljivanja" msprop:Generator_UserTableName="Iznajmljivanja">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Rb" msprop:Generator_ColumnPropNameInRow="Rb" msprop:Generator_ColumnPropNameInTable="RbColumn" msprop:Generator_ColumnVarNameInTable="columnRb" msprop:Generator_UserColumnName="Rb" type="xs:string" minOccurs="0" />
+              <xs:element name="NazivKnjigeAutor" msprop:Generator_ColumnPropNameInRow="NazivKnjigeAutor" msprop:Generator_ColumnPropNameInTable="NazivKnjigeAutorColumn" msprop:Generator_ColumnVarNameInTable="columnNazivKnjigeAutor" msprop:Generator_UserColumnName="NazivKnjigeAutor" type="xs:string" minOccurs="0" />
+              <xs:element name="KnjigaVracena" msprop:Generator_ColumnPropNameInRow="KnjigaVracena" msprop:Generator_ColumnPropNameInTable="KnjigaVracenaColumn" msprop:Generator_ColumnVarNameInTable="columnKnjigaVracena" msprop:Generator_UserColumnName="KnjigaVracena" type="xs:string" minOccurs="0" />
+              <xs:element name="BrojDana" msprop:Generator_ColumnPropNameInRow="BrojDana" msprop:Generator_ColumnPropNameInTable="BrojDanaColumn" msprop:Generator_ColumnVarNameInTable="columnBrojDana" msprop:Generator_UserColumnName="BrojDana" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
